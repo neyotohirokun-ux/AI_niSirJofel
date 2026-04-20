@@ -1,6 +1,40 @@
-<html>
-    <head></head>
-<body>
-    <div></div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI ChatBot - niSirJofel</title>
+        <link rel="stylesheet" type="text/css" href="style/index.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="AI_3d_model">
+                <h1>🤖 niSirJofel AI</h1>
+            </div>
+            <div class="ChatBox">
+                <div class="chat-header">
+                    <h2>Chat with AI</h2>
+                    <span class="status online">● Online</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-content">Hey! I'm niSirJofel AI. How can I help you today?</div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        id="userInput" 
+                        class="chat-input" 
+                        placeholder="Type your message here..."
+                        autocomplete="off"
+                    >
+                    <button id="sendBtn" class="send-button">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/chat.js"></script>
+    </body>
 </html>
+
