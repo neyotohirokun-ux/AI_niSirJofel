@@ -6,12 +6,23 @@ const API_URL = 'http://localhost:3000/api/chat';
 const chatMessages = document.getElementById('chatMessages');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
+const clearBtn = document.getElementById('clearBtn');
+
+// Generate or retrieve session ID for conversation continuity
+let sessionId = localStorage.getItem('chatSessionId');
+if (!sessionId) {
+    sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('chatSessionId', sessionId);
+}
+
+console.log('🔑 Session ID:', sessionId);
 
 // Event listeners
 sendBtn.addEventListener('click', sendMessage);
 userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendMessage();
 });
+clearBtn.addEventListener('click', clearHistory);
 
 // Send message function
 async function sendMessage() {
@@ -27,13 +38,16 @@ async function sendMessage() {
     showTypingIndicator();
     
     try {
-        // Send to backend API
+        // Send to backend API with session ID for conversation continuity
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ 
+                message: message,
+                sessionId: sessionId
+            })
         });
         
         if (!response.ok) {
@@ -106,6 +120,33 @@ function scrollToBottom() {
     setTimeout(() => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }, 0);
+}
+
+// Clear conversation history
+async function clearHistory() {
+    if (confirm('Are you sure you want to clear the conversation history? This will start a fresh conversation.')) {
+        try {
+            // Clear conversation on backend
+            await fetch(API_URL.replace('/chat', '/clear'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sessionId: sessionId })
+            });
+            
+            // Generate new session ID for fresh conversation
+            sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('chatSessionId', sessionId);
+            
+            // Clear chat UI
+            chatMessages.innerHTML = '<div class="message bot-message"><div class="message-content">Hey! I\'m niSirJofel AI. How can I help you today?</div></div>';
+            
+            console.log('🔄 Conversation cleared. New Session ID:', sessionId);
+        } catch (error) {
+            console.error('Error clearing history:', error);
+        }
+    }
 }
 
 // Initialize

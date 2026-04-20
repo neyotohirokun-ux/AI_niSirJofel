@@ -18,6 +18,8 @@ body {
     display: flex;
     gap: 30px;
     max-width: 1200px;
+    max-height: 80vh;
+    overflow-y: auto;
     width: 100%;
     align-items: stretch;
 }
@@ -74,6 +76,12 @@ body {
     font-weight: 600;
 }
 
+.header-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
 .status {
     font-size: 12px;
     padding: 5px 12px;
@@ -86,6 +94,29 @@ body {
 
 .status.online {
     color: #4ade80;
+}
+
+.clear-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.clear-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+.clear-button:active {
+    transform: translateY(0);
 }
 
 .chat-messages {
